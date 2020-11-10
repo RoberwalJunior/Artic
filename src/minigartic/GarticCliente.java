@@ -22,29 +22,29 @@ import javax.swing.JPanel;
 
 public class GarticCliente extends javax.swing.JFrame {
 
-    private GarticClienteMain tcpClient;
-
     private static final long serialVersionUID = 5661286812709693531L;
-    private JPanel draft;
+    JPanel draft;
 
-    private ArrayList<Point> points = new ArrayList<>();
+    ArrayList<Point> points = new ArrayList<>();
 
     public GarticCliente() {
         initComponents();
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         draft = new Draft();
-        draft.setBounds(0, 0, 1000, 10000);
-        draft.setBackground(Color.yellow);
+        draft.setBounds(0, 0, 700, 500);
+        draft.setBackground(Color.white);
         draft.addMouseMotionListener(new MouseMotionAdapter() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
                 //setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-
-                points.add(e.getPoint());
+                //tcpClient.writeMessage(e.getPoint().toString());
+                Point ponto = e.getPoint();
+                tcpClient.writeMessage(ponto.x + "|" + ponto.y);
+                points.add(ponto);
                 draft.repaint();
             }
 
@@ -54,7 +54,10 @@ public class GarticCliente extends javax.swing.JFrame {
             public void mouseReleased(MouseEvent e) {
                 // adiciona uma coordenada nula para ignorarmos
                 // no paintComponent
-                points.add(e.getPoint());
+                Point ponto = e.getPoint();
+                tcpClient.writeMessage(ponto.x + "|" + ponto.y);
+                points.add(ponto);
+                tcpClient.writeMessage("-1|-1");
                 points.add(new Point(-1, -1));
                 //setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
@@ -62,18 +65,17 @@ public class GarticCliente extends javax.swing.JFrame {
         jPanel1.add(draft, BorderLayout.CENTER);
         draft.setLayout(null);
         draft.grabFocus();
-        
-        
+
         try {
             InputStream imageStream = this.getClass().getResourceAsStream("pencil.png");
             Image image;
             image = ImageIO.read(imageStream);
-            Cursor pencilCursor =  Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 26), "pencil");
+            Cursor pencilCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 26), "pencil");
             setCursor(pencilCursor);
         } catch (IOException ex) {
             System.out.println("Errro");
         }
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -171,7 +173,7 @@ public class GarticCliente extends javax.swing.JFrame {
             .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelPrincipalLayout.createSequentialGroup()
                         .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
@@ -272,11 +274,6 @@ public class GarticCliente extends javax.swing.JFrame {
         closeConnection();
     }//GEN-LAST:event_jButtonDesconectarActionPerformed
 
-    
-    protected void paintComponent(Graphics g) {
-        
-    }
-    
     public void closeConnection() {
         try {
             tcpClient.closeConnection();
@@ -286,6 +283,10 @@ public class GarticCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,
                     ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public ArrayList<Point> getPoints() {
+        return this.points;
     }
 
     public static void main(String args[]) {
@@ -338,28 +339,30 @@ public class GarticCliente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextServer;
     // End of variables declaration//GEN-END:variables
+private GarticClienteMain tcpClient;
 
     public class Draft extends JPanel {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 4886600019364448097L;
 
         public Draft() {
-            
+
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             // TODO Auto-generated method stub
             super.paintComponent(g);
-    
             int i = 0;
+
             while (i < points.size() - 1) {
+
                 Point currentPoint = points.get(i);
                 Point nextPoint = points.get(i + 1);
-    
+
                 if (nextPoint.x != -1 && nextPoint.y != -1) {
                     Graphics2D g1 = (Graphics2D) g;
                     RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
@@ -367,7 +370,7 @@ public class GarticCliente extends javax.swing.JFrame {
                     g1.setRenderingHints(rh);
                     g1.drawLine(currentPoint.x, currentPoint.y, nextPoint.x, nextPoint.y);
                     i++;
-    
+
                 } else {
                     // quando as coordenadas do ponto seguinte forem (-1, -1),
                     // pulamos essa iteração para evitar que a linha anterior

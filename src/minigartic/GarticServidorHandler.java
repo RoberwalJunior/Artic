@@ -1,10 +1,12 @@
 package minigartic;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.List;
+import java.util.StringTokenizer;
 
-public class GarticServidorHandler extends Thread{
-    
+public class GarticServidorHandler extends Thread {
+
     private GarticServidorConnection cliente;
     private GarticServidorMain caller;
 
@@ -12,8 +14,7 @@ public class GarticServidorHandler extends Thread{
         this.cliente = cliente;
         this.caller = caller;
     }
-    
-    
+
     @Override
     protected void finalize() throws Throwable {
         encerrar();
@@ -32,10 +33,36 @@ public class GarticServidorHandler extends Thread{
             }
         }
     }
-    
+
     @Override
-    public void run(){
-        
+    public void run() {
+
+        String message;
+        while (true) {
+            try {
+                if (this.cliente.getSocket().isConnected() && this.cliente.getInput() != null) {
+                    message = this.cliente.getInput().readLine();
+                } else {
+                    break;
+                }
+                if (message == null || message.equals("")) {
+                    break;
+                }
+                
+                System.out.println(message);
+                StringTokenizer tokens = new StringTokenizer(message, "|");
+                int x = Integer.parseInt(tokens.nextToken());
+                int y = Integer.parseInt(tokens.nextToken());
+                //Point ponto = new Point(x,y);
+                
+                
+                messageDispatcher(x + "|" + y);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
+
     }
-    
+
 }

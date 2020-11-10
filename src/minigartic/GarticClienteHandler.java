@@ -1,5 +1,6 @@
 package minigartic;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,6 +28,7 @@ public class GarticClienteHandler extends Thread {
             try {
                 if (this.socket.isConnected() && this.input != null) {
                     message = this.input.readLine();
+                    System.out.println(message);
                 } else {
                     break;
                 }
@@ -37,9 +39,12 @@ public class GarticClienteHandler extends Thread {
                 //Mensagem será x|y
                 //caller.apagaBolinha();
                 StringTokenizer tokens = new StringTokenizer(message, "|");
-                //caller.X = Integer.parseInt(tokens.nextToken());
-                //caller.Y = Integer.parseInt(tokens.nextToken());
-                //caller.pintaBolinha();
+                
+                int x = Integer.parseInt(tokens.nextToken());
+                int y = Integer.parseInt(tokens.nextToken());
+                
+                caller.points.add(new Point(x,y));
+                caller.draft.repaint();
                 
                 
             } catch (Exception ex) {

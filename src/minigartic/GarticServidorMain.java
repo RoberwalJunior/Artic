@@ -1,5 +1,6 @@
 package minigartic;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,9 +10,10 @@ import java.util.List;
 
 public class GarticServidorMain extends Thread {
     
-    private final List<GarticServidorConnection> clientes;
-    private final ServerSocket server;
+    private List<GarticServidorConnection> clientes;
+    private ServerSocket server;
     String desenho = "Sapo";
+    ArrayList<Point> points = new ArrayList<>();
     GarticServidorConnection desenhista;
 
     public GarticServidorMain(int porta) throws IOException {
