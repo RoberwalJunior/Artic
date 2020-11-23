@@ -20,6 +20,8 @@ public class GarticServidorMain extends Thread {
     int min, max;
     ArrayList<Point> points = new ArrayList<>();
     GarticServidorConnection desenhista;
+    String desenhoAtual;
+    int acertos = 0;
 
     public GarticServidorMain(int porta) throws IOException {
         

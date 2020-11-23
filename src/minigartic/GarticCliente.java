@@ -92,11 +92,11 @@ public class GarticCliente extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaChat = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextAreaResposta = new javax.swing.JTextArea();
+        jTextFieldChat = new javax.swing.JTextField();
+        jTextFieldResposta = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -142,29 +142,34 @@ public class GarticCliente extends javax.swing.JFrame {
 
         jPanelPrincipal.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 900, 570));
 
-        jTextArea1.setColumns(30);
-        jTextArea1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setEnabled(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setColumns(30);
+        jTextAreaChat.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jTextAreaChat.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaChat);
 
         jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 740, 400, -1));
 
-        jTextArea2.setColumns(30);
-        jTextArea2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTextArea2.setRows(5);
-        jTextArea2.setEnabled(false);
-        jScrollPane2.setViewportView(jTextArea2);
+        jTextAreaResposta.setEditable(false);
+        jTextAreaResposta.setColumns(30);
+        jTextAreaResposta.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jTextAreaResposta.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaResposta);
 
         jPanelPrincipal.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 740, 400, -1));
 
-        jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTextField1.setPreferredSize(new java.awt.Dimension(69, 30));
-        jPanelPrincipal.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 860, 400, -1));
+        jTextFieldChat.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jTextFieldChat.setPreferredSize(new java.awt.Dimension(69, 30));
+        jPanelPrincipal.add(jTextFieldChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 860, 400, -1));
 
-        jTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
-        jTextField2.setPreferredSize(new java.awt.Dimension(69, 30));
-        jPanelPrincipal.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 860, 400, -1));
+        jTextFieldResposta.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
+        jTextFieldResposta.setPreferredSize(new java.awt.Dimension(69, 30));
+        jTextFieldResposta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldRespostaActionPerformed(evt);
+            }
+        });
+        jPanelPrincipal.add(jTextFieldResposta, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 860, 400, -1));
 
         jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -300,6 +305,12 @@ public class GarticCliente extends javax.swing.JFrame {
         jComboBoxTemas.setVisible(false);
     }//GEN-LAST:event_bntIniciarJogoActionPerformed
 
+    private void jTextFieldRespostaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRespostaActionPerformed
+        // TODO add your handling code here:
+        this.tcpClient.writeMessage("-4|" + nomeJogador + "|" + jTextFieldResposta.getText());
+        jTextFieldResposta.setText("");
+    }//GEN-LAST:event_jTextFieldRespostaActionPerformed
+
     public void closeConnection() {
         try {
             tcpClient.closeConnection();
@@ -327,6 +338,10 @@ public class GarticCliente extends javax.swing.JFrame {
     
     public void AtualizarTitulo(String conteudo){
         JogadorAtual.setText(conteudo);
+    }
+    
+    public void SetResposta(String message){
+        jTextAreaResposta.setText(jTextAreaResposta.getText() + "\n" +  message);
     }
 
     public static void main(String args[]) {
@@ -380,10 +395,10 @@ public class GarticCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextArea jTextAreaChat;
+    private javax.swing.JTextArea jTextAreaResposta;
+    private javax.swing.JTextField jTextFieldChat;
+    private javax.swing.JTextField jTextFieldResposta;
     private javax.swing.JTextField jTextServer;
     // End of variables declaration//GEN-END:variables
 private GarticClienteMain tcpClient;
