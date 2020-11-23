@@ -44,7 +44,7 @@ public class GarticServidorHandler extends Thread {
         for (GarticServidorConnection cli : clientes) {
             if (cli.getSocket() != null && cli.getSocket().isConnected() && cli.getOutput() != null) {
                 if(cli == proximoDesenhista){
-                    cli.getOutput().println("1| É a sua vez de Desenhar : " + this.caller.animais[2]);
+                    cli.getOutput().println("1| É a sua vez de Desenhar : " + this.caller.desenho[(int) (Math.random() * (this.caller.max - this.caller.min + 1) + this.caller.min)]);
                     cli.getOutput().flush();
                 } else {
                     cli.getOutput().println("2| É a vez de " + proximoDesenhista.GetNomeJogador() + "!");
@@ -74,19 +74,29 @@ public class GarticServidorHandler extends Thread {
                 StringTokenizer tokens = new StringTokenizer(message, "|");
                 int acao = Integer.parseInt(tokens.nextToken());
                 
-                if (acao == -1) {
-                    TrocaDeTurno(message);
-                    
-                } else if(acao == -2){
-                    List<GarticServidorConnection> teste = this.caller.getClientes();
-                    GarticServidorConnection ultimo = teste.get(teste.size() - 1);
-                    ultimo.SetNomeJogador(tokens.nextToken());
-                } else {
-                    int x = Integer.parseInt(tokens.nextToken());
-                    int y = Integer.parseInt(tokens.nextToken());
-                    //Point ponto = new Point(x,y);
-
-                    messageDispatcher("3|" + x + "|" + y);
+                switch (acao) {
+                    case -1:
+                        TrocaDeTurno(message);
+                        break;
+                    case -2:
+                        List<GarticServidorConnection> teste = this.caller.getClientes();
+                        GarticServidorConnection ultimo = teste.get(teste.size() - 1);
+                        ultimo.SetNomeJogador(tokens.nextToken());
+                        break;
+                    case 3:
+                        int x = Integer.parseInt(tokens.nextToken());
+                        int y = Integer.parseInt(tokens.nextToken());
+                        //Point ponto = new Point(x,y);
+                        messageDispatcher("3|" + x + "|" + y);
+                        break;
+                    case -3:
+                        int min = Integer.parseInt(tokens.nextToken());
+                        int max = Integer.parseInt(tokens.nextToken());
+                        this.caller.min = min;
+                        this.caller.max = max;
+                        break;
+                    default:
+                        break;
                 }
 
             } catch (Exception ex) {

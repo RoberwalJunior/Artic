@@ -36,6 +36,8 @@ public class GarticCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         bntIniciarJogo.setVisible(false);
+        jLabeltemas.setVisible(false);
+        jComboBoxTemas.setVisible(false);
         draft = new Draft();
         draft.setBounds(0, 0, 820, 530);
         draft.setBackground(Color.white);
@@ -45,7 +47,7 @@ public class GarticCliente extends javax.swing.JFrame {
             public void mouseDragged(MouseEvent e) {
                 if (PermitirDesenhar) {
                     Point ponto = e.getPoint();
-                    tcpClient.writeMessage("1|" + ponto.x + "|" + ponto.y);
+                    tcpClient.writeMessage("3|" + ponto.x + "|" + ponto.y);
                     points.add(ponto);
                     draft.repaint();
                 }
@@ -60,9 +62,10 @@ public class GarticCliente extends javax.swing.JFrame {
                 // no paintComponent
                 if (PermitirDesenhar) {
                     Point ponto = e.getPoint();
-                    tcpClient.writeMessage("1|" + ponto.x + "|" + ponto.y);
+                    tcpClient.writeMessage("3|" + ponto.x + "|" + ponto.y);
                     points.add(ponto);
-                    tcpClient.writeMessage("-99|-99");
+                    tcpClient.writeMessage("3|-99|-99");
+                    points.add(new Point(-99,-99));
                 }
             }
         });
@@ -106,6 +109,8 @@ public class GarticCliente extends javax.swing.JFrame {
         JtextNomeJogador = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         bntIniciarJogo = new javax.swing.JButton();
+        jLabeltemas = new javax.swing.JLabel();
+        jComboBoxTemas = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -226,6 +231,13 @@ public class GarticCliente extends javax.swing.JFrame {
         });
         jPanelPrincipal.add(bntIniciarJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 340, 40));
 
+        jLabeltemas.setForeground(new java.awt.Color(255, 255, 204));
+        jLabeltemas.setText("Tema:");
+        jPanelPrincipal.add(jLabeltemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, 60, 20));
+
+        jComboBoxTemas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Animais", "Objeto", "Alimento" }));
+        jPanelPrincipal.add(jComboBoxTemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 130, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -255,6 +267,8 @@ public class GarticCliente extends javax.swing.JFrame {
             this.tcpClient = new GarticClienteMain(server, porta, this);
             this.tcpClient.writeMessage("0");
             this.tcpClient.writeMessage("-2|" + nomeJogador);
+            
+            
 
             jButtonDesconectar.setEnabled(true);
             jButtonConectar.setEnabled(false);
@@ -274,6 +288,17 @@ public class GarticCliente extends javax.swing.JFrame {
         // Botão para iniciar partida.
         this.tcpClient.writeMessage("-1");
         bntIniciarJogo.setVisible(false);
+        jLabeltemas.setVisible(false);
+        jComboBoxTemas.setVisible(false);
+        
+        if(jComboBoxTemas.getSelectedItem().equals("Animais")){
+                this.tcpClient.writeMessage("-3|0|2");
+            } else if(jComboBoxTemas.getSelectedItem().equals("Objeto")){
+                this.tcpClient.writeMessage("-3|3|5");
+            } else {
+                this.tcpClient.writeMessage("-3|6|8");
+            }
+        
     }//GEN-LAST:event_bntIniciarJogoActionPerformed
 
     public void closeConnection() {
@@ -293,6 +318,8 @@ public class GarticCliente extends javax.swing.JFrame {
 
     public void AbilitarBotaoIniciar(){
         bntIniciarJogo.setVisible(true);
+        jLabeltemas.setVisible(true);
+        jComboBoxTemas.setVisible(true);
     }
     
     public ArrayList<Point> getPoints() {
@@ -342,11 +369,13 @@ public class GarticCliente extends javax.swing.JFrame {
     private javax.swing.JButton bntIniciarJogo;
     private javax.swing.JButton jButtonConectar;
     private javax.swing.JButton jButtonDesconectar;
+    private javax.swing.JComboBox<String> jComboBoxTemas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabeltemas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelPrincipal;

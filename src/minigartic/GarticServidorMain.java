@@ -13,8 +13,8 @@ public class GarticServidorMain extends Thread {
     private List<GarticServidorConnection> clientes;
     int Turno = -1;
     private ServerSocket server;
-    String[] animais = {"Peixe", "Tubarão", "Giraffa"};
-    String[] objetos = {"Óculos", "Relógio", "Pipa"};
+    String[] desenho = {"Peixe", "Tubarão", "Giraffa", "Óculos", "Relógio", "Garrafa", "Feijão", "Arroz", "Linguiça"};
+    int min, max;
     ArrayList<Point> points = new ArrayList<>();
     GarticServidorConnection desenhista;
 
