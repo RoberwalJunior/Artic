@@ -183,17 +183,17 @@ public class GarticCliente extends javax.swing.JFrame {
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 204));
         jLabel3.setText("Server:");
-        jPanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 60, 20));
+        jPanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, 60, 20));
 
         jTextServer.setText("localhost");
-        jPanelPrincipal.add(jTextServer, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 130, -1));
+        jPanelPrincipal.add(jTextServer, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 0, 130, -1));
 
         JtextPorta.setText("6789");
-        jPanelPrincipal.add(JtextPorta, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 50, -1));
+        jPanelPrincipal.add(JtextPorta, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 60, -1));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 204));
         jLabel4.setText("Porta:");
-        jPanelPrincipal.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 50, 20));
+        jPanelPrincipal.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, 60, 20));
 
         jButtonConectar.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
         jButtonConectar.setText("Jogar");
@@ -238,10 +238,10 @@ public class GarticCliente extends javax.swing.JFrame {
 
         jLabeltemas.setForeground(new java.awt.Color(255, 255, 204));
         jLabeltemas.setText("Tema:");
-        jPanelPrincipal.add(jLabeltemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, 60, 20));
+        jPanelPrincipal.add(jLabeltemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 60, 30));
 
         jComboBoxTemas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Animais", "Objeto", "Alimento" }));
-        jPanelPrincipal.add(jComboBoxTemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 130, -1));
+        jPanelPrincipal.add(jComboBoxTemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 160, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
