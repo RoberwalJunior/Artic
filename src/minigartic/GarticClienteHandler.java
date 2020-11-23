@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
-
 public class GarticClienteHandler extends Thread {
-    
+
     private Socket socket;
     private GarticCliente caller;
     private BufferedReader input;
@@ -22,7 +21,7 @@ public class GarticClienteHandler extends Thread {
 
     @Override
     public void run() {
-        
+
         String message;
         while (true) {
             try {
@@ -35,26 +34,48 @@ public class GarticClienteHandler extends Thread {
                 if (message == null || message.equals("")) {
                     break;
                 }
-                
+
                 //Mensagem será x|y
                 //caller.apagaBolinha();
                 StringTokenizer tokens = new StringTokenizer(message, "|");
-                
-                int x = Integer.parseInt(tokens.nextToken());
-                int y = Integer.parseInt(tokens.nextToken());
-                
-                caller.points.add(new Point(x,y));
-                caller.draft.repaint();
-                
-                
+                String acao =  tokens.nextToken();
+                if (acao.equals("0")) {
+                    
+                    this.caller.AbilitarBotaoIniciar();
+                    this.caller.ProximoDesenhar = true;
+                    
+                } else if(acao.equals("1")){
+                    
+                    String conteudo = tokens.nextToken();
+                    this.caller.AtualizarTitulo(conteudo);
+                    this.caller.PermitirDesenhar = true;
+                    this.caller.ResetarPontos();
+                    
+                } else if(acao.equals("2")) {
+                    
+                    this.caller.AtualizarTitulo(tokens.nextToken());
+                    this.caller.PermitirDesenhar = false;
+                    this.caller.ResetarPontos();
+                    
+                } else {
+                    
+                    int x = Integer.parseInt(tokens.nextToken());
+                    int y = Integer.parseInt(tokens.nextToken());
+
+                    caller.points.add(new Point(x, y));
+                    caller.draft.repaint();
+                    
+                }
+
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 break;
             }
         }
-        
+
     }
     
-    
-    
+    // 0 => Habilitar o botao para iniciar a partida
+    // 1 => Atualizar o titulo da partida
+
 }

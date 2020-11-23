@@ -11,6 +11,7 @@ public class GarticServidorConnection {
     private Socket socket;
     private BufferedReader input;
     private PrintWriter output;
+    private String NomeJogador;
 
     public GarticServidorConnection(Socket socket) {
         this.socket = socket;
@@ -39,6 +40,14 @@ public class GarticServidorConnection {
 
     public PrintWriter getOutput() {
         return output;
+    }
+    
+    public String GetNomeJogador(){
+        return this.NomeJogador;
+    }
+    
+    public void SetNomeJogador(String NomeJogador){
+        this.NomeJogador = NomeJogador;
     }
     
 }

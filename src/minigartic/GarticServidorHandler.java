@@ -33,6 +33,27 @@ public class GarticServidorHandler extends Thread {
             }
         }
     }
+    
+    public synchronized void TrocaDeTurno(String message) throws IOException {
+        this.caller.Turno++;
+        List<GarticServidorConnection> clientes = this.caller.getClientes();
+        if(this.caller.Turno == clientes.size() - 1){
+            this.caller.Turno = 0;
+        }
+        GarticServidorConnection proximoDesenhista = clientes.get(this.caller.Turno);
+        for (GarticServidorConnection cli : clientes) {
+            if (cli.getSocket() != null && cli.getSocket().isConnected() && cli.getOutput() != null) {
+                if(cli == proximoDesenhista){
+                    cli.getOutput().println("1| É a sua vez de Desenhar : " + this.caller.animais[2]);
+                    cli.getOutput().flush();
+                } else {
+                    cli.getOutput().println("2| É a vez de " + proximoDesenhista.GetNomeJogador() + "!");
+                    cli.getOutput().flush();
+                }
+                
+            }
+        }
+    }
 
     @Override
     public void run() {
@@ -48,15 +69,26 @@ public class GarticServidorHandler extends Thread {
                 if (message == null || message.equals("")) {
                     break;
                 }
-                
+
                 System.out.println(message);
                 StringTokenizer tokens = new StringTokenizer(message, "|");
-                int x = Integer.parseInt(tokens.nextToken());
-                int y = Integer.parseInt(tokens.nextToken());
-                //Point ponto = new Point(x,y);
+                int acao = Integer.parseInt(tokens.nextToken());
                 
-                
-                messageDispatcher(x + "|" + y);
+                if (acao == -1) {
+                    TrocaDeTurno(message);
+                    
+                } else if(acao == -2){
+                    List<GarticServidorConnection> teste = this.caller.getClientes();
+                    GarticServidorConnection ultimo = teste.get(teste.size() - 1);
+                    ultimo.SetNomeJogador(tokens.nextToken());
+                } else {
+                    int x = Integer.parseInt(tokens.nextToken());
+                    int y = Integer.parseInt(tokens.nextToken());
+                    //Point ponto = new Point(x,y);
+
+                    messageDispatcher("1|" + x + "|" + y);
+                }
+
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
@@ -64,5 +96,9 @@ public class GarticServidorHandler extends Thread {
         }
 
     }
+    // -1 => Condição para trocar de desenhista e começar um novo turno
+    // -2 => Adicionar um novo jogador
+    // 1 => Ultima opção é para desenhar
+    
 
 }

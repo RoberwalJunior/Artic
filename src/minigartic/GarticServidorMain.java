@@ -11,8 +11,10 @@ import java.util.List;
 public class GarticServidorMain extends Thread {
     
     private List<GarticServidorConnection> clientes;
+    int Turno = -1;
     private ServerSocket server;
-    String desenho = "Sapo";
+    String[] animais = {"Peixe", "Tubarão", "Giraffa"};
+    String[] objetos = {"Óculos", "Relógio", "Pipa"};
     ArrayList<Point> points = new ArrayList<>();
     GarticServidorConnection desenhista;
 
@@ -43,6 +45,9 @@ public class GarticServidorMain extends Thread {
     }
     
     public synchronized void novoCliente(GarticServidorConnection cliente) throws IOException {
+        if(clientes.isEmpty()){
+            cliente.getOutput().println("0|0|0");
+        }
         clientes.add(cliente);
     }
 
