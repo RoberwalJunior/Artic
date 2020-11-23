@@ -41,10 +41,11 @@ public class GarticServidorHandler extends Thread {
             this.caller.Turno = 0;
         }
         GarticServidorConnection proximoDesenhista = clientes.get(this.caller.Turno);
+        this.caller.desenhoAtual = this.caller.desenho[(int) (Math.random() * (this.caller.max - this.caller.min + 1) + this.caller.min)];
         for (GarticServidorConnection cli : clientes) {
             if (cli.getSocket() != null && cli.getSocket().isConnected() && cli.getOutput() != null) {
                 if(cli == proximoDesenhista){
-                    cli.getOutput().println("1| É a sua vez de Desenhar : " + this.caller.desenho[(int) (Math.random() * (this.caller.max - this.caller.min + 1) + this.caller.min)]);
+                    cli.getOutput().println("1| É a sua vez de Desenhar : " + this.caller.desenhoAtual);
                     cli.getOutput().flush();
                 } else {
                     cli.getOutput().println("2| É a vez de " + proximoDesenhista.GetNomeJogador() + "!");
@@ -53,6 +54,18 @@ public class GarticServidorHandler extends Thread {
                 
             }
         }
+    }
+    
+    public synchronized void MandarResposta(String message) throws IOException{
+        
+        List<GarticServidorConnection> clientes = this.caller.getClientes();
+        for (GarticServidorConnection cli : clientes) {
+            if (cli.getSocket() != null && cli.getSocket().isConnected() && cli.getOutput() != null) {
+                cli.getOutput().println("5|" + message);
+                cli.getOutput().flush();
+            }
+        }
+        
     }
 
     @Override
@@ -94,6 +107,19 @@ public class GarticServidorHandler extends Thread {
                         int max = Integer.parseInt(tokens.nextToken());
                         this.caller.min = min;
                         this.caller.max = max;
+                        break;
+                    case -4:
+                        String nomeJogador = tokens.nextToken();
+                        String resposta = tokens.nextToken();
+                        if(this.caller.desenhoAtual.equals(resposta)){
+                            MandarResposta(nomeJogador + " Acertou a resposta!");
+                            if(this.caller.acertos == this.caller.getClientes().size()){
+                                this.caller.acertos = 0;
+                                TrocaDeTurno(message);
+                            }
+                        } else {
+                            MandarResposta(nomeJogador + " : " + resposta);
+                        }
                         break;
                     default:
                         break;

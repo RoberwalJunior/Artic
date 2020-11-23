@@ -57,6 +57,10 @@ public class GarticClienteHandler extends Thread {
                     this.caller.PermitirDesenhar = false;
                     this.caller.ResetarPontos();
                     
+                } else if(acao.equals("5")){
+                    
+                    this.caller.SetResposta(tokens.nextToken());
+                    
                 } else {
                     
                     int x = Integer.parseInt(tokens.nextToken());
