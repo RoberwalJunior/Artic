@@ -286,19 +286,18 @@ public class GarticCliente extends javax.swing.JFrame {
 
     private void bntIniciarJogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntIniciarJogoActionPerformed
         // Botão para iniciar partida.
+        if(jComboBoxTemas.getSelectedItem().equals("Animais")){
+            this.tcpClient.writeMessage("-3|0|6");
+        } else if(jComboBoxTemas.getSelectedItem().equals("Objeto")){
+            this.tcpClient.writeMessage("-3|7|13");
+        } else {
+            this.tcpClient.writeMessage("-3|14|20");
+        }
+
         this.tcpClient.writeMessage("-1");
         bntIniciarJogo.setVisible(false);
         jLabeltemas.setVisible(false);
         jComboBoxTemas.setVisible(false);
-        
-        if(jComboBoxTemas.getSelectedItem().equals("Animais")){
-                this.tcpClient.writeMessage("-3|0|2");
-            } else if(jComboBoxTemas.getSelectedItem().equals("Objeto")){
-                this.tcpClient.writeMessage("-3|3|5");
-            } else {
-                this.tcpClient.writeMessage("-3|6|8");
-            }
-        
     }//GEN-LAST:event_bntIniciarJogoActionPerformed
 
     public void closeConnection() {

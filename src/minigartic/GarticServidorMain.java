@@ -13,7 +13,10 @@ public class GarticServidorMain extends Thread {
     private List<GarticServidorConnection> clientes;
     int Turno = -1;
     private ServerSocket server;
-    String[] desenho = {"Peixe", "Tubarão", "Giraffa", "Óculos", "Relógio", "Garrafa", "Feijão", "Arroz", "Linguiça"};
+    String[] desenho = {
+        /*0*/"Peixe", "Tubarão", "Girafa", "Leão", "Macaco", "Abelha", "Baleia",/*6*/
+        /*7*/"Óculos", "Relógio", "Garrafa", "Abajur", "Âncora", "Cadeado", "Faca",/*13*/
+        /*14*/"Feijão", "Arroz", "Linguiça", "Uvas", "Bala", "Leite", "Queijo"/*20*/};
     int min, max;
     ArrayList<Point> points = new ArrayList<>();
     GarticServidorConnection desenhista;
