@@ -50,25 +50,31 @@ public class GarticClienteHandler extends Thread {
                     this.caller.AtualizarTitulo(conteudo);
                     this.caller.PermitirDesenhar = true;
                     this.caller.ResetarPontos();
+                    this.caller.DesabilitarEscrita();
+                    this.caller.LimparResposta();
                     
                 } else if(acao.equals("2")) {
                     
                     this.caller.AtualizarTitulo(tokens.nextToken());
                     this.caller.PermitirDesenhar = false;
                     this.caller.ResetarPontos();
+                    this.caller.HabilitarEscrita();
+                    this.caller.LimparResposta();
                     
                 } else if(acao.equals("5")){
                     
                     this.caller.SetResposta(tokens.nextToken());
                     
-                } else {
+                } else if(acao.equals("6")) {
                     
+                    this.caller.SetChat(tokens.nextToken());
+                    
+                } else {
                     int x = Integer.parseInt(tokens.nextToken());
                     int y = Integer.parseInt(tokens.nextToken());
 
                     caller.points.add(new Point(x, y));
                     caller.draft.repaint();
-                    
                 }
 
             } catch (Exception ex) {

@@ -34,10 +34,10 @@ public class GarticServidorHandler extends Thread {
         }
     }
     
-    public synchronized void TrocaDeTurno(String message) throws IOException {
+    public synchronized void TrocaDeTurno() throws IOException {
         this.caller.Turno++;
         List<GarticServidorConnection> clientes = this.caller.getClientes();
-        if(this.caller.Turno == clientes.size() - 1){
+        if(this.caller.Turno == clientes.size()){
             this.caller.Turno = 0;
         }
         GarticServidorConnection proximoDesenhista = clientes.get(this.caller.Turno);
@@ -67,6 +67,18 @@ public class GarticServidorHandler extends Thread {
         }
         
     }
+    
+    public synchronized void MandarChat(String message) throws IOException{
+        
+        List<GarticServidorConnection> clientes = this.caller.getClientes();
+        for (GarticServidorConnection cli : clientes) {
+            if (cli.getSocket() != null && cli.getSocket().isConnected() && cli.getOutput() != null) {
+                cli.getOutput().println("6|" + message);
+                cli.getOutput().flush();
+            }
+        }
+        
+    }
 
     @Override
     public void run() {
@@ -89,7 +101,7 @@ public class GarticServidorHandler extends Thread {
                 
                 switch (acao) {
                     case -1:
-                        TrocaDeTurno(message);
+                        TrocaDeTurno();
                         break;
                     case -2:
                         List<GarticServidorConnection> teste = this.caller.getClientes();
@@ -113,13 +125,19 @@ public class GarticServidorHandler extends Thread {
                         String resposta = tokens.nextToken();
                         if(this.caller.desenhoAtual.equals(resposta)){
                             MandarResposta(nomeJogador + " Acertou a resposta!");
-                            if(this.caller.acertos == this.caller.getClientes().size()){
+                            this.caller.acertos++;
+                            if(this.caller.acertos == this.caller.getClientes().size() - 1){
                                 this.caller.acertos = 0;
-                                TrocaDeTurno(message);
+                                TrocaDeTurno();
                             }
                         } else {
                             MandarResposta(nomeJogador + " : " + resposta);
                         }
+                        break;
+                    case -5:
+                        String jogador = tokens.nextToken();
+                        String mensagemChat = tokens.nextToken();
+                        MandarChat(jogador + " : " + mensagemChat);
                         break;
                     default:
                         break;

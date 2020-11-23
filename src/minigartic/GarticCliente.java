@@ -160,6 +160,11 @@ public class GarticCliente extends javax.swing.JFrame {
 
         jTextFieldChat.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextFieldChat.setPreferredSize(new java.awt.Dimension(69, 30));
+        jTextFieldChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldChatActionPerformed(evt);
+            }
+        });
         jPanelPrincipal.add(jTextFieldChat, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 860, 400, -1));
 
         jTextFieldResposta.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
@@ -311,6 +316,12 @@ public class GarticCliente extends javax.swing.JFrame {
         jTextFieldResposta.setText("");
     }//GEN-LAST:event_jTextFieldRespostaActionPerformed
 
+    private void jTextFieldChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldChatActionPerformed
+        // TODO add your handling code here:
+        this.tcpClient.writeMessage("-5|" + nomeJogador + "|" + jTextFieldChat.getText());
+        jTextFieldChat.setText("");
+    }//GEN-LAST:event_jTextFieldChatActionPerformed
+
     public void closeConnection() {
         try {
             tcpClient.closeConnection();
@@ -342,6 +353,27 @@ public class GarticCliente extends javax.swing.JFrame {
     
     public void SetResposta(String message){
         jTextAreaResposta.setText(jTextAreaResposta.getText() + "\n" +  message);
+        jTextAreaResposta.setCaretPosition(jTextAreaResposta.getDocument().getLength());
+    }
+    
+    public void SetChat(String message){
+        jTextAreaChat.setText(jTextAreaChat.getText() + "\n" +  message);
+        jTextAreaChat.setCaretPosition(jTextAreaChat.getDocument().getLength());
+    }
+    
+    public void DesabilitarEscrita(){
+        jTextFieldChat.setEnabled(false);
+        jTextFieldResposta.setEnabled(false);
+    }
+    
+    public void HabilitarEscrita(){
+        jTextFieldChat.setEnabled(true);
+        jTextFieldResposta.setEnabled(true);
+    }
+    
+    public void LimparResposta(){
+        jTextAreaResposta.setText("");
+        jTextAreaResposta.setText("Próxima Rodada!");
     }
 
     public static void main(String args[]) {
