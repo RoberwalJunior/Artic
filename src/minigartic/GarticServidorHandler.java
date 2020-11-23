@@ -86,7 +86,7 @@ public class GarticServidorHandler extends Thread {
                     int y = Integer.parseInt(tokens.nextToken());
                     //Point ponto = new Point(x,y);
 
-                    messageDispatcher("1|" + x + "|" + y);
+                    messageDispatcher("3|" + x + "|" + y);
                 }
 
             } catch (Exception ex) {

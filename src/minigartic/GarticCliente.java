@@ -37,17 +37,15 @@ public class GarticCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         bntIniciarJogo.setVisible(false);
         draft = new Draft();
-        draft.setBounds(0, 0, 700, 500);
+        draft.setBounds(0, 0, 820, 530);
         draft.setBackground(Color.white);
         draft.addMouseMotionListener(new MouseMotionAdapter() {
 
             @Override
             public void mouseDragged(MouseEvent e) {
-                //setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-                //tcpClient.writeMessage(e.getPoint().toString());
                 if (PermitirDesenhar) {
                     Point ponto = e.getPoint();
-                    tcpClient.writeMessage(ponto.x + "|" + ponto.y);
+                    tcpClient.writeMessage("1|" + ponto.x + "|" + ponto.y);
                     points.add(ponto);
                     draft.repaint();
                 }
@@ -62,13 +60,10 @@ public class GarticCliente extends javax.swing.JFrame {
                 // no paintComponent
                 if (PermitirDesenhar) {
                     Point ponto = e.getPoint();
-                    tcpClient.writeMessage(ponto.x + "|" + ponto.y);
+                    tcpClient.writeMessage("1|" + ponto.x + "|" + ponto.y);
                     points.add(ponto);
-                    tcpClient.writeMessage("-1|-1");
-                    points.add(new Point(-1, -1));
+                    tcpClient.writeMessage("-99|-99");
                 }
-
-                //setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             }
         });
         jPanel1.add(draft, BorderLayout.CENTER);
@@ -84,7 +79,6 @@ public class GarticCliente extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println("Errro");
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +86,7 @@ public class GarticCliente extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelPrincipal = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -115,10 +110,14 @@ public class GarticCliente extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setPreferredSize(new java.awt.Dimension(800, 850));
+        setResizable(false);
 
         jPanelPrincipal.setBackground(new java.awt.Color(102, 153, 255));
         jPanelPrincipal.setPreferredSize(new java.awt.Dimension(800, 850));
+        jPanelPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(700, 500));
@@ -127,55 +126,76 @@ public class GarticCliente extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGap(0, 820, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 530, Short.MAX_VALUE)
         );
 
-        jTextArea1.setColumns(20);
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 820, 530));
+
+        jPanelPrincipal.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 900, 570));
+
+        jTextArea1.setColumns(30);
+        jTextArea1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setEnabled(false);
-        jTextArea1.setPreferredSize(new java.awt.Dimension(400, 100));
         jScrollPane1.setViewportView(jTextArea1);
 
-        jTextArea2.setColumns(20);
+        jPanelPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 740, 400, -1));
+
+        jTextArea2.setColumns(30);
+        jTextArea2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextArea2.setRows(5);
         jTextArea2.setEnabled(false);
-        jTextArea2.setPreferredSize(new java.awt.Dimension(400, 100));
         jScrollPane2.setViewportView(jTextArea2);
 
-        jTextField1.setEnabled(false);
+        jPanelPrincipal.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 740, 400, -1));
+
+        jTextField1.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField1.setPreferredSize(new java.awt.Dimension(69, 30));
+        jPanelPrincipal.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 860, 400, -1));
 
-        jTextField2.setEnabled(false);
+        jTextField2.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         jTextField2.setPreferredSize(new java.awt.Dimension(69, 30));
+        jPanelPrincipal.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 860, 400, -1));
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 204));
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Chat");
+        jPanelPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 700, 400, 40));
 
-        jLabel2.setForeground(new java.awt.Color(255, 255, 204));
+        jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Respostas");
+        jPanelPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 700, 400, 40));
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 204));
         jLabel3.setText("Server:");
+        jPanelPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 60, 20));
 
         jTextServer.setText("localhost");
+        jPanelPrincipal.add(jTextServer, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 130, -1));
 
         JtextPorta.setText("6789");
+        jPanelPrincipal.add(JtextPorta, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 50, -1));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 204));
         jLabel4.setText("Porta:");
+        jPanelPrincipal.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 50, 20));
 
-        jButtonConectar.setText("Conectar");
+        jButtonConectar.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
+        jButtonConectar.setText("Jogar");
         jButtonConectar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConectarActionPerformed(evt);
             }
         });
+        jPanelPrincipal.add(jButtonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 900, 640, 60));
 
-        jButtonDesconectar.setText("Desconectar");
+        jButtonDesconectar.setFont(new java.awt.Font("Comic Sans MS", 0, 36)); // NOI18N
+        jButtonDesconectar.setText("Sair");
         jButtonDesconectar.setToolTipText("");
         jButtonDesconectar.setEnabled(false);
         jButtonDesconectar.addActionListener(new java.awt.event.ActionListener() {
@@ -183,13 +203,20 @@ public class GarticCliente extends javax.swing.JFrame {
                 jButtonDesconectarActionPerformed(evt);
             }
         });
+        jPanelPrincipal.add(jButtonDesconectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 900, 190, 60));
 
         JogadorAtual.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         JogadorAtual.setForeground(new java.awt.Color(255, 255, 255));
+        JogadorAtual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         JogadorAtual.setText("Aguardando Jogadores");
+        jPanelPrincipal.add(JogadorAtual, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 900, 40));
+        JogadorAtual.getAccessibleContext().setAccessibleName("Label5");
+
+        jPanelPrincipal.add(JtextNomeJogador, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 240, 30));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 204));
         jLabel5.setText("Nome do jogador:");
+        jPanelPrincipal.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 100, 30));
 
         bntIniciarJogo.setText("Iniciar jogo");
         bntIniciarJogo.addActionListener(new java.awt.event.ActionListener() {
@@ -197,107 +224,17 @@ public class GarticCliente extends javax.swing.JFrame {
                 bntIniciarJogoActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
-        jPanelPrincipal.setLayout(jPanelPrincipalLayout);
-        jPanelPrincipalLayout.setHorizontalGroup(
-            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextServer, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(bntIniciarJogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JtextPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JtextNomeJogador)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonConectar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonDesconectar)
-                                .addGap(41, 41, 41))
-                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                                .addComponent(JogadorAtual)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(41, 41, 41))
-                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(26, Short.MAX_VALUE))))))
-        );
-        jPanelPrincipalLayout.setVerticalGroup(
-            jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPrincipalLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextServer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(JtextPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonConectar)
-                    .addComponent(jButtonDesconectar)
-                    .addComponent(jLabel5)
-                    .addComponent(JtextNomeJogador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JogadorAtual)
-                    .addComponent(bntIniciarJogo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
-        );
-
-        JogadorAtual.getAccessibleContext().setAccessibleName("Label5");
+        jPanelPrincipal.add(bntIniciarJogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 340, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 970, Short.MAX_VALUE)
         );
 
         pack();
@@ -306,17 +243,24 @@ public class GarticCliente extends javax.swing.JFrame {
     private void jButtonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConectarActionPerformed
 
         try {
+            if (JtextNomeJogador.getText().equals("")) {
+                JtextNomeJogador.requestFocus();
+                throw new IOException("Insira seu nome para continuar...");
+            }
+
             String server = jTextServer.getText();
             int porta = Integer.parseInt(JtextPorta.getText());
+            nomeJogador = JtextNomeJogador.getText();
+
             this.tcpClient = new GarticClienteMain(server, porta, this);
             this.tcpClient.writeMessage("0");
-            this.tcpClient.writeMessage("-2|" + JtextNomeJogador.getText());
-            nomeJogador = JtextNomeJogador.getText();
+            this.tcpClient.writeMessage("-2|" + nomeJogador);
+
             jButtonDesconectar.setEnabled(true);
             jButtonConectar.setEnabled(false);
+            JtextNomeJogador.setEnabled(false);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -338,8 +282,7 @@ public class GarticCliente extends javax.swing.JFrame {
             jButtonConectar.setEnabled(true);
             jButtonDesconectar.setEnabled(false);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this,
-                    ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -405,6 +348,7 @@ public class GarticCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -438,7 +382,7 @@ private GarticClienteMain tcpClient;
                 Point currentPoint = points.get(i);
                 Point nextPoint = points.get(i + 1);
 
-                if (nextPoint.x != -1 && nextPoint.y != -1) {
+                if (nextPoint.x != -99 && nextPoint.y != -99) {
                     Graphics2D g1 = (Graphics2D) g;
                     RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
@@ -447,7 +391,7 @@ private GarticClienteMain tcpClient;
                     i++;
 
                 } else {
-                    // quando as coordenadas do ponto seguinte forem (-1, -1),
+                    // quando as coordenadas do ponto seguinte forem (-99, -99),
                     // pulamos essa iteração para evitar que a linha anterior
                     // seja ligada a nova linha que está sendo desenhada
                     i += 2;
